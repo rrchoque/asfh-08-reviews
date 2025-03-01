@@ -1,15 +1,20 @@
 ---
 import PlaceCard from "@/components/PlaceCard.astro";
-import { prisma } from "@/db";
 import MainLayout from "@/layouts/MainLayout.astro";
+import { actions } from "astro:actions";
 
-const places = await prisma.place.findMany();
+const { data: places = [], error } = await Astro.callAction(
+  actions.getPlaces,
+  {}
+);
+
+console.log({ places, error });
 ---
 
 <MainLayout>
   <h1 class="text-3xl font-bold">Lugares</h1>
 
   <div class="grid grid-cols-3 gap-4">
-    <PlaceCard />
+    {places.map((place) => <PlaceCard place={place} />)}
   </div>
 </MainLayout>
