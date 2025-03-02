@@ -1,4 +1,5 @@
 ---
+import Availability from "@/components/Availability.astro";
 import Star from "@/components/Star.astro";
 import { prisma } from "@/db";
 import MainLayout from "@/layouts/MainLayout.astro";
@@ -39,6 +40,14 @@ const imageUrl = `/assets/images/${place.image}`;
       </div>
 
       <!-- TODO: Server Island -->
+      <Availability server:defer placeId={place.id.toString()}>
+        <p
+          slot="fallback"
+          class="bg-gray-300 mt-5 text-center rounded-xl p-2 animate-pulse"
+        >
+          Espere
+        </p>
+      </Availability>
     </div>
     <div>
       <Image
